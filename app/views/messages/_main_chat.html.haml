@@ -2,38 +2,26 @@
   .Main-chat__group-info
     .Main-chat__group-info__current-group
       .Main-chat__group-info__current-group__group-name
-        test
-      %ul.Main-chat__group-info__current-group__member-list
+        = @group.name
+      .Main-chat__group-info__current-group__member-list
         Member :
-        %li.Main-chat__group-info__current-group__member
-          masa
-    = link_to "#", class: "Main-chat__group-info__edit-btn" do
+        - @group.users.each do |user|
+          = user.name
+                    
+    = link_to edit_group_path(@group), method: :get, class: "Main-chat__group-info__edit-btn" do
       Edit
 
   .Main-chat__message-list
-    .Main-chat__message-list__message-box
-      .Main-chat__message-list__message-box__info
-        .Main-chat__message-list__message-box__info__user-name
-          masa
-        .Main-chat__message-list__message-box__info__message-date
-          2020/11/20(wed) 17:58:03
-      .Main-chat__message-list__message-box__message
-        おはよう！
-    .Main-chat__message-list__message-box
-      .Main-chat__message-list__message-box__info
-        .Main-chat__message-list__message-box__info__user-name
-          masa
-        .Main-chat__message-list__message-box__info__message-date
-          2020/11/20(wed) 18:00:58
-      .Main-chat__message-list__message-box__message
-        今日は夜から雨
+    = render @messages
+    
+   
 
 
   .Main-chat__message-form
-    %form.Main-chat__message-form__input-box
+    = form_with model: [@group, @message], html: {class: "Main-chat__message-form__input-box"}, local: true do |f|
       .Main-chat__message-form__input-box__contents
-        %input.Main-chat__message-form__input-box__contents__input-text{type: "text", placeholder: "type a message"}
-        %label.Main-chat__message-form__input-box__contents__input-img
-          = icon('far', 'image', class: ".Main-chat__message-form__input-box__contents__input-img__icon")
-          %input.Main-chat__message-form__input-box__contents__input-img__hidden-file{type: "file"}
-      %input.Main-chat__message-form__input-box__send-btn{type: "submit", value: "Send"}
+        = f.text_field :content, class: 'Main-chat__message-form__input-box__contents__input-text', placeholder: 'type a message'
+        = f.label :image, class: 'Main-chat__message-form__input-box__contents__input-img' do
+          = icon('far', 'image', class: 'Main-chat__message-form__input-box__contents__input-img__icon')
+          = f.file_field :image, class: 'Main-chat__message-form__input-box__contents__input-img__hidden-file'
+      = f.submit 'Send', class: 'Main-chat__message-form__input-box__send-btn'
