@@ -22,7 +22,7 @@ $(function(){
       return html;
     } else {
       let html =
-      `<div class="Main-chat__message-list__message-box data-message-id=${message.id}">
+      `<div class="Main-chat__message-list__message-box" data-message-id=${message.id}>
         <div class="Main-chat__message-list__message-box__info">
           <div class="Main-chat__message-list__message-box__info__user-name">
             ${message.user_name}
@@ -62,7 +62,7 @@ $(function(){
     })
     .fail(function() {
       alert("メッセージ送信に失敗しました");
-      $('.Form__submit').prop("disabled", false);
+      $('.Main-chat__message-form__input-box__send-btn').prop("disabled", false);
     });
   });
 
